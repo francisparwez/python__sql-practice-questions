@@ -823,7 +823,7 @@ Key concepts practiced:
 - Filtering ranked results
 - Understanding the difference between `TOP` and window-function ranking
 
-**SQL Progress: 10 / 20 questions completed ✅**
+**SQL Progress: 15 / 20 questions completed ✅**
 
 ## Level 3 — Window Functions
 
@@ -886,6 +886,74 @@ Try solving it with:
 ROW_NUMBER()
 
 rather than MAX().
+
+## 🧠 Level 3 — Window Functions — Completed
+
+#### 11. Rank customers
+
+Completed — ranked customers by total spending using `RANK()`.
+
+Key concepts practiced:
+
+- Customer-level aggregation
+- `SUM()`
+- `RANK()`
+- Window-function thinking
+- `ORDER BY` inside a window function
+- Handling tied rankings
+
+#### 12. Running revenue
+
+Completed — calculated cumulative revenue ordered by `order_date` using a windowed `SUM()`.
+
+Key concepts practiced:
+
+- `SUM() OVER()`
+- Running/cumulative totals
+- `ORDER BY` inside a window function
+- Preserving individual rows while calculating cumulative values
+- Chronological accumulation
+
+#### 13. Customer running spending
+
+Completed — calculated cumulative spending separately for each customer using a partitioned window function.
+
+Key concepts practiced:
+
+- `SUM() OVER()`
+- `PARTITION BY`
+- `ORDER BY`
+- Customer-level running totals
+- Understanding how `PARTITION BY` resets a calculation for each customer
+
+#### 14. Compare each order with customer average
+
+Completed — calculated each customer's average order amount and compared every order against that customer average using window functions.
+
+Key concepts practiced:
+
+- `AVG() OVER()`
+- `PARTITION BY`
+- Customer-level averages without collapsing rows
+- Difference calculations
+- Reusing a window-function calculation inside an expression
+- Understanding why a `SELECT` alias cannot be directly reused in another expression in the same `SELECT` list
+
+#### 15. Find each customer's largest order
+
+Completed — identified the single largest order for every customer using `ROW_NUMBER()` instead of `MAX()`.
+
+Key concepts practiced:
+
+- `ROW_NUMBER()`
+- `PARTITION BY`
+- `ORDER BY ... DESC`
+- Ranking rows within each customer
+- Filtering ranked results with a CTE
+- Selecting the complete row associated with the maximum value
+- Understanding `ROW_NUMBER()` versus `MAX()`
+
+**SQL Progress: 15 / 20 questions completed ✅**
 
 ## Level 4 — Serious SQL Logic 🧠
 
