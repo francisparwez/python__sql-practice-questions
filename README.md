@@ -752,6 +752,79 @@ Then solve the same problem using:
 
 ROW_NUMBER()
 
+## 🧠 Level 2 — Joins & Analytical Thinking — Completed
+
+#### 6. INNER JOIN
+
+Completed — joined `customers` and `orders` to return customers who have placed orders.
+
+Key concepts practiced:
+
+- `INNER JOIN`
+- Matching records using primary/foreign keys
+- Selecting columns from multiple tables
+- Understanding one-to-many relationships
+
+#### 7. LEFT JOIN
+
+Completed — identified customers who have never placed an order using a `LEFT JOIN` and a `NULL` filter.
+
+Key concepts practiced:
+
+- `LEFT JOIN`
+- Identifying unmatched records
+- `NULL` filtering with `IS NULL`
+- Finding customers with no related records
+- Common Data Analyst interview pattern
+
+#### 8. Revenue by city
+
+Completed — calculated total completed-order revenue for each customer city.
+
+Key concepts practiced:
+
+- Joining `customers` to `orders`
+- `SUM()`
+- `GROUP BY`
+- Filtering with `WHERE`
+- Understanding result grain
+- City-level revenue analysis
+
+#### 9. Product revenue
+
+Completed — calculated total completed-order revenue for each product using `products`, `order_items`, and `orders`.
+
+Revenue was calculated using:
+
+```text
+quantity × product price
+```
+
+Key concepts practiced:
+
+- Multi-table joins
+- Joining through a bridge/detail table
+- `SUM()`
+- `GROUP BY`
+- Calculated revenue
+- Product-level aggregation
+
+#### 10. Top customers
+
+Completed — found the top 5 customers by completed-order spending using `ROW_NUMBER()`.
+
+Key concepts practiced:
+
+- Customer-level aggregation
+- `SUM()`
+- `ROW_NUMBER()`
+- `ORDER BY` inside a window function
+- Subqueries
+- Filtering ranked results
+- Understanding the difference between `TOP` and window-function ranking
+
+**SQL Progress: 10 / 20 questions completed ✅**
+
 ## Level 3 — Window Functions
 
 11. Rank customers
