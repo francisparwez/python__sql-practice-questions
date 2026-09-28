@@ -457,7 +457,7 @@ Given:
 
 prices = [100, 102, 101, 105, 110, 108, 115]
 
-Create a function that calculates a 3 -day moving average.
+Create a function that calculates a 3-day moving average.
 
 Don't use pandas.
 
@@ -469,11 +469,11 @@ values = [10, 12, 15, 14, 16, 18, 20, 17]
 
 Find the longest consecutive increasing streak.
 
-Here:
+For this dataset, the longest streak is:
 
-16 → 18 → 20
+14 → 16 → 18 → 20
 
-has length 3.
+with length 4.
 
 18. Customer purchase analysis
 
@@ -550,6 +550,198 @@ Employees earning above the overall average
 Department with the highest average salary
 
 Constraint: No pandas, NumPy, statistics, or other analytical libraries.
+
+## 🧠 Level 4 — Real Problem-Solving — Completed
+
+#### 16. Moving average
+
+Completed — calculated a rolling average using native Python list slicing and a configurable window size without pandas.
+
+Input:
+
+```python
+prices = [100, 102, 101, 105, 110, 108, 115]
+```
+
+For a 3-value window, the result is:
+
+```text
+[101.0, 102.67, 105.33, 107.67, 111.0]
+```
+
+Key concepts practiced:
+
+- Sliding-window logic
+- List slicing
+- `range()` with `window`
+- Dynamic window size
+- Running calculations
+- Rounding numeric results
+- Understanding `len(values) - window + 1`
+
+#### 17. Detect increasing streaks
+
+Completed — tracked the current consecutive increasing streak and the longest streak seen so far using a single pass through the list.
+
+Input:
+
+```python
+values = [10, 12, 15, 14, 16, 18, 20, 17]
+```
+
+Result:
+
+```text
+4
+```
+
+The longest streak is:
+
+```text
+14 → 16 → 18 → 20
+```
+
+Key concepts practiced:
+
+- Single-pass iteration
+- Comparing the current value with the previous value
+- Tracking `current_streak`
+- Tracking `longest_streak`
+- Resetting state when the sequence stops increasing
+- Handling empty input
+- O(n) time complexity
+
+#### 18. Customer purchase analysis
+
+Completed — calculated total spending, average transaction value, and the customer with the highest total spending using dictionaries and loops.
+
+Input:
+
+```python
+transactions = [
+    ("Alice", 100),
+    ("Bob", 200),
+    ("Alice", 150),
+    ("Charlie", 300),
+    ("Bob", 50),
+    ("Alice", 200)
+]
+```
+
+Expected results:
+
+```text
+Total spent:
+Alice   → 450
+Bob     → 250
+Charlie → 300
+
+Average transaction value:
+Alice   → 150
+Bob     → 125
+Charlie → 300
+
+Highest total spending:
+Alice → 450
+```
+
+Key concepts practiced:
+
+- Dictionary aggregation
+- Running totals
+- Transaction counting
+- Per-customer averages
+- Tracking a maximum value and associated customer
+- Tuple unpacking
+- Grouping data with native Python
+- Python equivalent of SQL `GROUP BY` + aggregate functions
+
+#### 19. Mini data-cleaning pipeline
+
+Completed — built a native Python data-cleaning pipeline that converts valid ages and salaries, detects invalid/missing values, calculates the median of valid salaries, and fills missing salaries with that median.
+
+Input:
+
+```python
+data = [
+    {"name": "Alice", "age": "25", "salary": "50000"},
+    {"name": "Bob", "age": "thirty", "salary": "60000"},
+    {"name": "Charlie", "age": "35", "salary": ""},
+    {"name": "David", "age": "40", "salary": "70000"}
+]
+```
+
+Result:
+
+```python
+[
+    {"name": "Alice", "age": 25, "salary": 50000},
+    {"name": "Bob", "age": 30, "salary": 60000},
+    {"name": "Charlie", "age": 35, "salary": 60000},
+    {"name": "David", "age": 40, "salary": 70000}
+]
+```
+
+The robust version also handles invalid salary strings and the case where there are no valid salaries by using `None` rather than allowing the median calculation to fail.
+
+Key concepts practiced:
+
+- Data type conversion
+- `try` / `except`
+- Missing-value handling
+- Validation
+- Median calculation from scratch
+- Two-pass data cleaning
+- Imputation using the median
+- Defensive programming
+- Handling empty valid-value collections
+- Practical data preprocessing logic
+
+#### 20. Mini analytical challenge
+
+Completed — built a complete native Python employee analytics workflow using separate reusable functions for each analytical task.
+
+The solution calculates:
+
+- Average salary → `74166.67`
+- Median salary → `75000.0`
+- Highest-paid employee → Frank, `95000`
+- Average salary by department:
+  - IT → `80000.0`
+  - HR → `55000.0`
+  - Finance → `87500.0`
+- Oldest employee → David, `41`
+- Employees earning above the overall average → Charlie, David, Frank
+- Department with the highest average salary → Finance, `87500.0`
+
+Key concepts practiced:
+
+- Function design and separation of responsibilities
+- Mean and median calculations
+- Extracting values from nested dictionaries
+- Finding a maximum record rather than only a maximum value
+- Dictionary-based grouping and aggregation
+- Department-level analysis
+- Filtering records using a calculated threshold
+- Returning structured results
+- Iterative comparison and best-so-far tracking
+- Translating SQL-style analytical thinking into native Python
+- Reusable analytical functions
+- No pandas, NumPy, `statistics`, or analytical libraries
+
+**Python Progress: 20 / 20 questions completed 🎉**
+
+### Level 4 Files
+
+The completed Level 4 solutions are stored as:
+
+```text
+p_moving_average.py
+q_longest_streak.py
+r_purchase_analysis.py
+s_mini_data_cleaning_pipeline.py
+t_mini_analytical_challenge.py
+```
 
 # 🗄 20 SQL Practice Questions
 
