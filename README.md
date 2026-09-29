@@ -1145,23 +1145,53 @@ Key concepts practiced:
 - Selecting the complete row associated with the maximum value
 - Understanding `ROW_NUMBER()` versus `MAX()`
 
-**SQL Progress: 15 / 20 questions completed ✅**
+## 🧠 Level 4 — Serious SQL Logic — Progress
 
-## Level 4 — Serious SQL Logic 🧠
+### 16. Month-over-month revenue
 
-16. Month-over-month revenue
+Completed — calculated monthly completed-order revenue and used `LAG()` to compare each month with the previous month.
 
-Calculate monthly revenue:
+The solution calculates:
 
-Month | Revenue | Previous Month | Change
+- Month
+- Monthly revenue
+- Previous month's revenue
+- Revenue change
+- Revenue change percentage
 
-Then calculate:
+Key concepts practiced:
 
-Revenue Change%
+- `DATEFROMPARTS()`
+- `YEAR()`
+- `MONTH()`
+- Monthly date grouping
+- `SUM()`
+- `GROUP BY`
+- CTEs
+- `LAG()`
+- Window functions
+- Previous-period comparisons
+- Revenue change calculations
+- Percentage change calculations
+- `NULLIF()` to prevent division-by-zero errors
+- `ROUND()` for percentage formatting
+- Chronological ordering with `ORDER BY`
 
-You'll need:
+Important analytical pattern:
 
-LAG()
+```text
+Raw orders
+    ↓
+Monthly aggregation
+    ↓
+LAG() → Previous Month
+    ↓
+Current Revenue - Previous Revenue → Change
+    ↓
+Change / Previous Revenue → Revenue Change %
+```
+
+### SQL Progress: 16 / 20 questions completed ✅
 
 17. Customer retention pattern
 
