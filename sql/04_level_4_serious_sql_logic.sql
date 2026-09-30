@@ -29,3 +29,33 @@ SELECT
 	)
 FROM monthly_revenue
 ORDER BY [Month];
+
+
+-- 17. Customer retention pattern
+-- Find customers who placed an order in two consecutive months.
+-- This will force you to think about:
+--	dates
+--	grouping
+--	window functions
+--	previous records
+WITH customers_month AS (
+	SELECT
+		customer_id,
+		DATEFROMPARTS(YEAR(order_date), MONTH(order_date), 1) AS [Month]
+	FROM orders
+	WHERE status = 'Completed'
+	GROUP BY
+		customer_id,
+		DATEFROMPARTS(YEAR(order_date), MONTH(order_date), 1)
+)
+SELECT
+    customer_id,
+    [Month],
+    LAG([Month]) OVER (
+        PARTITION BY customer_id
+        ORDER BY [Month]
+    ) AS [Previous Month]
+FROM customers_month
+ORDER BY
+    customer_id,
+    [Month];

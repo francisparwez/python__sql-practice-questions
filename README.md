@@ -1191,23 +1191,122 @@ Current Revenue - Previous Revenue → Change
 Change / Previous Revenue → Revenue Change %
 ```
 
-### SQL Progress: 16 / 20 questions completed ✅
+## 🧠 Level 4 — Serious SQL Logic — Progress
 
-17. Customer retention pattern
+### 16. Month-over-month revenue
 
-Find customers who placed an order in two consecutive months.
+Completed — calculated monthly completed-order revenue and used `LAG()` to compare each month with the previous month.
 
-This will force you to think about:
+The solution calculates:
 
-dates
+- Month
+- Monthly revenue
+- Previous month's revenue
+- Revenue change
+- Revenue change percentage
 
-grouping
+Key concepts practiced:
 
-window functions
+- `DATEFROMPARTS()`
+- `YEAR()`
+- `MONTH()`
+- Monthly date grouping
+- `SUM()`
+- `GROUP BY`
+- CTEs
+- `LAG()`
+- Window functions
+- Previous-period comparisons
+- Revenue change calculations
+- Percentage change calculations
+- `NULLIF()` to prevent division-by-zero errors
+- `ROUND()` for percentage formatting
+- Chronological ordering with `ORDER BY`
 
-previous records
+Important analytical pattern:
+
+```text
+Raw orders
+    ↓
+Monthly aggregation
+    ↓
+LAG() → Previous Month
+    ↓
+Current Revenue - Previous Revenue → Change
+    ↓
+Change / Previous Revenue → Revenue Change %
+```
+
+### 17. Customer retention pattern
+
+Completed — identified customers who placed completed orders in consecutive months by first creating one record per customer per month, then using `LAG()` to retrieve the previous active month and comparing it with the current month.
+
+The solution was built in stages:
+
+```text
+Orders
+    ↓
+Customer + Month grouping
+    ↓
+One row per customer per month
+    ↓
+LAG() → Previous Month
+    ↓
+DATEADD(MONTH, 1, Previous Month)
+    ↓
+Compare with Current Month
+    ↓
+Identify consecutive-month customers
+```
+
+Key concepts practiced:
+
+- `DATEFROMPARTS()`
+- `YEAR()`
+- `MONTH()`
+- `GROUP BY`
+- CTEs
+- `LAG()`
+- `PARTITION BY`
+- `ORDER BY` inside window functions
+- Previous-record analysis
+- `DATEADD()`
+- Consecutive-month detection
+- Customer retention/activity patterns
+- Understanding why duplicate orders within the same month must be grouped first
+- Understanding why window-function results may need another CTE before filtering
+
+Important SQL reasoning:
+
+```text
+Raw order dates
+    ↓
+Convert dates to month
+    ↓
+Deduplicate to customer/month grain
+    ↓
+Find previous month with LAG()
+    ↓
+Check whether current month = previous month + 1 month
+```
+
+### SQL Progress: 17 / 20 questions completed 🎯
 
 18. Second-highest salary/order
+
+Find the second-highest order amount without using:
+
+TOP 2
+
+and without using:
+
+MAX()
+
+Try:
+
+DENSE_RANK()
+
+19. Identify unusually large orders
 
 Find the second-highest order amount without using:
 
