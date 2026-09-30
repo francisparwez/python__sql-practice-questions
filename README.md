@@ -1290,35 +1290,103 @@ Find previous month with LAG()
 Check whether current month = previous month + 1 month
 ```
 
-### SQL Progress: 17 / 20 questions completed 🎯
+## 🧠 Level 4 — Serious SQL Logic — Progress
 
-18. Second-highest salary/order
+### 16. Month-over-month revenue
 
-Find the second-highest order amount without using:
+Completed — calculated monthly completed-order revenue and used `LAG()` to compare each month with the previous month.
 
-TOP 2
+The solution calculates:
 
-and without using:
+- Month
+- Monthly revenue
+- Previous month's revenue
+- Revenue change
+- Revenue change percentage
 
-MAX()
+Key concepts practiced:
 
-Try:
+- `DATEFROMPARTS()`
+- `YEAR()`
+- `MONTH()`
+- Monthly date grouping
+- `SUM()`
+- `GROUP BY`
+- CTEs
+- `LAG()`
+- Window functions
+- Previous-period comparisons
+- Revenue change calculations
+- Percentage change calculations
+- `NULLIF()` to prevent division-by-zero errors
+- `ROUND()` for percentage formatting
+- Chronological ordering with `ORDER BY`
 
-DENSE_RANK()
+### 17. Customer retention pattern
 
-19. Identify unusually large orders
+Completed — identified customers who placed completed orders in consecutive months by creating one record per customer per month, using `LAG()` to retrieve the previous active month, and comparing months with `DATEADD()`.
 
-Find the second-highest order amount without using:
+Key concepts practiced:
 
-TOP 2
+- Customer/month data grain
+- `DATEFROMPARTS()`
+- `GROUP BY`
+- CTEs
+- `LAG()`
+- `PARTITION BY`
+- Previous-record analysis
+- `DATEADD()`
+- Consecutive-month detection
+- Multi-stage SQL reasoning
 
-and without using:
+### 18. Second-highest order amount
 
-MAX()
+Completed — found the second-highest distinct order amount without using `TOP 2` or `MAX()`.
 
-Try:
+The solution uses:
 
-DENSE_RANK()
+```sql
+WITH ranked_orders AS (
+    SELECT
+        amount,
+        DENSE_RANK() OVER(
+            ORDER BY amount DESC
+        ) AS rnk
+    FROM orders
+)
+SELECT amount
+FROM ranked_orders
+WHERE rnk = 2;
+```
+
+Key concepts practiced:
+
+- `DENSE_RANK()`
+- Window functions
+- Ranking values in descending order
+- CTEs
+- Filtering ranked results
+- Finding the second-highest distinct value
+- Understanding how ties are handled by `DENSE_RANK()`
+
+Important distinction:
+
+`DENSE_RANK()` assigns the same rank to tied values. Therefore, if the highest amount occurs multiple times and the second-highest amount also occurs multiple times, all orders with the second-highest distinct amount are returned.
+
+Example:
+
+```text
+Amount | Rank
+-------|-----
+1000   | 1
+900    | 2
+900    | 2
+750    | 3
+```
+
+The query returns both `900` rows.
+
+### SQL Progress: 18 / 20 questions completed 🎯
 
 19. Identify unusually large orders
 
@@ -1326,13 +1394,18 @@ For each order, calculate the customer's average order amount.
 
 Return orders where:
 
+```text
 order amount > customer average × 2
+```
 
 Output:
 
-customer order
-
-amount customer_average
+```text
+customer
+order
+amount
+customer_average
+```
 
 This is a nice bridge between SQL and statistical thinking.
 

@@ -59,3 +59,22 @@ FROM customers_month
 ORDER BY
     customer_id,
     [Month];
+
+-- 18. Second-highest salary/order
+-- Find the second-highest order amount without using:
+--	TOP 2
+-- and without using:
+--	MAX()
+-- Try:
+--	DENSE_RANK()
+
+WITH ranked_orders AS (
+	SELECT
+		amount,
+		DENSE_RANK() OVER(
+			ORDER BY amount DESC
+		) as rnk
+	FROM orders
+) SELECT amount
+FROM ranked_orders
+WHERE rnk = 2;
