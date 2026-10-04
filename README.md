@@ -1386,28 +1386,61 @@ Amount | Rank
 
 The query returns both `900` rows.
 
-### SQL Progress: 18 / 20 questions completed 🎯
+### SQL Progress: 19 / 20 questions completed 🎯
 
-19. Identify unusually large orders
+### 19. Identify unusually large orders
 
-For each order, calculate the customer's average order amount.
+Completed — calculated each customer's average order amount and identified orders whose amount was more than twice that customer's average.
 
-Return orders where:
+The solution uses a window function inside a CTE:
 
-```text
-order amount > customer average × 2
+```sql
+WITH customer_average AS (
+    SELECT
+        c.customer_id,
+        o.order_id,
+        o.amount,
+        AVG(o.amount) OVER (
+            PARTITION BY c.customer_id
+        ) AS avg_amount_by_customer
+    FROM customers c
+    JOIN orders o
+        ON c.customer_id = o.customer_id
+)
+SELECT *
+FROM customer_average
+WHERE amount > avg_amount_by_customer * 2;
 ```
 
-Output:
+Key concepts practiced:
+
+- `AVG() OVER()`
+- `PARTITION BY`
+- Customer-level window calculations
+- CTEs
+- Filtering calculated values in an outer query
+- `JOIN`
+- Statistical threshold logic
+- Customer-relative anomaly detection
+- Comparing individual rows against group-level averages
+- Understanding row-level vs. customer-level calculations
+- Multi-stage SQL reasoning
+
+Important analytical pattern:
 
 ```text
-customer
-order
-amount
-customer_average
+Orders
+   ↓
+Calculate customer average
+   ↓
+Keep individual order rows
+   ↓
+CTE
+   ↓
+Compare order amount with 2 × customer average
+   ↓
+Identify unusually large orders
 ```
-
-This is a nice bridge between SQL and statistical thinking.
 
 # 🔥 20. The Boss-Level SQL Challenge
 

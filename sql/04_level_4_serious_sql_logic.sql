@@ -30,7 +30,6 @@ SELECT
 FROM monthly_revenue
 ORDER BY [Month];
 
-
 -- 17. Customer retention pattern
 -- Find customers who placed an order in two consecutive months.
 -- This will force you to think about:
@@ -68,13 +67,41 @@ ORDER BY
 -- Try:
 --	DENSE_RANK()
 
-WITH ranked_orders AS (
-	SELECT
-		amount,
-		DENSE_RANK() OVER(
-			ORDER BY amount DESC
-		) as rnk
-	FROM orders
-) SELECT amount
+WITH
+    ranked_orders AS (
+        SELECT amount, DENSE_RANK() OVER (
+                ORDER BY amount DESC
+            ) as rnk
+        FROM orders
+    )
+SELECT amount
 FROM ranked_orders
-WHERE rnk = 2;
+WHERE
+    rnk = 2;
+
+-- 19. Identify unusually large orders
+-- For each order, calculate the customer's average order amount.
+-- Return orders where:
+-- 	order amount > customer average × 2
+-- Output:
+-- 	customer
+-- 	order
+-- 	amount
+-- 	customer_average
+
+-- This is a nice bridge between SQL and statistical thinking
+
+WITH customer_average AS (
+SELECT
+	c.customer_id,
+	o.order_id,
+	o.amount,
+	AVG(o.amount) OVER (
+		PARTITION BY c.customer_id
+	) AS avg_amount_by_customer
+FROM
+	customers c
+JOIN orders o
+ON c.customer_id = o.customer_id
+) SELECT * FROM customer_average
+WHERE amount > avg_amount_by_customer * 2
