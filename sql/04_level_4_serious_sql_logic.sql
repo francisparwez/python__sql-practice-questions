@@ -91,17 +91,58 @@ WHERE
 
 -- This is a nice bridge between SQL and statistical thinking
 
-WITH customer_average AS (
-SELECT
-	c.customer_id,
-	o.order_id,
-	o.amount,
-	AVG(o.amount) OVER (
-		PARTITION BY c.customer_id
-	) AS avg_amount_by_customer
-FROM
-	customers c
-JOIN orders o
-ON c.customer_id = o.customer_id
-) SELECT * FROM customer_average
-WHERE amount > avg_amount_by_customer * 2
+WITH
+    customer_average AS (
+        SELECT
+            c.customer_id,
+            o.order_id,
+            o.amount,
+            AVG(o.amount) OVER (
+                PARTITION BY
+                    c.customer_id
+            ) AS avg_amount_by_customer
+        FROM customers c
+            JOIN orders o ON c.customer_id = o.customer_id
+    )
+SELECT *
+FROM customer_average
+WHERE
+    amount > avg_amount_by_customer * 2
+
+-- 20. The Boss-Level SQL Challenge
+-- You're given an e-commerce database.
+-- Find the top 3 customers in each city by total spending.
+-- Your output must contain:
+-- 	city
+-- 	customer_name
+-- 	total_spending
+-- 	city_rank
+-- Requirements:
+-- 	Join customers and orders
+-- 	Aggregate spending
+-- 	Rank customers within each city
+-- 	Return only the top 3
+-- 	Handle ties appropriately
+-- You'll probably want:
+-- 	PARTITION BY
+-- and
+-- 	DENSE_RANK()
+
+
+WITH customers_in_city_by_spending AS (
+	SELECT
+		c.customer_name,
+		c.city,
+		SUM(o.amount) AS total_spending,
+		DENSE_RANK() OVER (
+			PARTITION BY c.city
+			ORDER BY SUM(o.amount) DESC
+		) AS city_rank
+	FROM
+		customers c
+	JOIN orders o
+	ON c.customer_id = o.customer_id
+	GROUP BY c.customer_name, c.city
+) SELECT *
+FROM customers_in_city_by_spending
+WHERE city_rank <= 3;

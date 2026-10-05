@@ -1442,37 +1442,86 @@ Compare order amount with 2 × customer average
 Identify unusually large orders
 ```
 
-# 🔥 20. The Boss-Level SQL Challenge
+# 🔥 20. The Boss-Level SQL Challenge — Completed
 
-You're given an e-commerce database.
+Completed — found the top 3 customers in each city by total spending using customer-level aggregation and `DENSE_RANK()` partitioned by city.
 
-Find the top 3 customers in each city by total spending.
+The solution uses:
 
-Your output must contain:
+```sql
+WITH customers_in_city_by_spending AS (
+    SELECT
+        c.customer_name,
+        c.city,
+        SUM(o.amount) AS total_spending,
+        DENSE_RANK() OVER (
+            PARTITION BY c.city
+            ORDER BY SUM(o.amount) DESC
+        ) AS city_rank
+    FROM customers c
+    JOIN orders o
+        ON c.customer_id = o.customer_id
+    GROUP BY c.customer_name, c.city
+)
+SELECT *
+FROM customers_in_city_by_spending
+WHERE city_rank <= 3;
+```
 
-city
+Key concepts practiced:
 
-customer_name total_spending city_rank
+- `JOIN`
+- `SUM()`
+- `GROUP BY`
+- `DENSE_RANK()`
+- `PARTITION BY`
+- `ORDER BY ... DESC`
+- CTEs
+- Filtering ranked results
+- Ranking customers independently within each city
+- Top-N-per-group analysis
+- Customer-level aggregation
+- Handling ties appropriately
+- Understanding why ranking must happen before filtering
+- Multi-stage SQL reasoning
+- Translating a business question into an analytical SQL query
 
-Requirements:
+Important analytical pattern:
 
-Join customers and orders
+```text
+Customers + Orders
+       ↓
+Join customer and order data
+       ↓
+Aggregate spending per customer
+       ↓
+DENSE_RANK() within each city
+       ↓
+Rank 1, 2, 3
+       ↓
+Filter city_rank <= 3
+       ↓
+Top 3 customers per city
+```
 
-Aggregate spending
+Tie handling:
 
-Rank customers within each city
+Because `DENSE_RANK()` is used, customers with the same total spending receive the same rank. Therefore, a city can return more than three customers when multiple customers are tied at rank 3.
 
-Return only the top 3
+Example:
 
-Handle ties appropriately
+```text
+Customer | Spending | Rank
+---------|----------|-----
+Ali      | 500000   | 1
+Ahmed    | 400000   | 2
+Bilal    | 300000   | 3
+Hamza    | 300000   | 3
+```
 
-You'll probably want:
+Both Bilal and Hamza are included because they share the third-place rank.
 
-PARTITION BY
-
-and
-
-DENSE_RANK()
+### SQL Progress: 20 / 20 questions completed 🎉🏆
 
 # 🧠 How I want you to approach this
 
